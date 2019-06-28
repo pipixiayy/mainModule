@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!--利用MyBatis Generator里面的Xml文件格式，复制成为resource的xml文件，并进行修改-->
+<generatorConfiguration>
+    <!--找到MySQL驱动包的路径-->
+    <classPathEntry location="F:\maven\repository\mysql\mysql-connector-java\5.1.37\mysql-connector-java-5.1.37.jar" />
+    <!--配置连接MySQL数据库的信息-->
+    <context id="inputdb" targetRuntime="MyBatis3">
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://192.168.112.11:3306/sys"
+                        userId="root"
+                        password="Level_1">
+        </jdbcConnection>
+        <!--会将数据库里的int类型数据转换为Java里的bigDecimals -->
+        <javaTypeResolver >
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+        <!--配置各个文件的相对路径和项目路径-->
+        <!--产生实体类，需要和App是同级的-->
+        <javaModelGenerator targetPackage="com.model.entity" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+        <!--映射文件，一定是在resources中的-->
+        <sqlMapGenerator targetPackage="mapper"  targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+        <!--底层dao-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.model.mapper"  targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <!--将example类型设为false，否则实体类里面会多一个example的类exampleStudent -->
+        <!--表明为数据库的表明，生成实体类Student，会自动生成到entity的目录中-->
+        <table tableName="jd_computer" domainObjectName="JdComputer" enableCountByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
+        </table>
+
+    </context>
+</generatorConfiguration>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:duboo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <description>dubbo注册仓库配置</description>
+
+    <dubbo:application name="main-provider"/>
+
+    <!-- 具体的实现bean -->
+    <bean id="jdService" class="com.server.serviceImpl.JdServiceImpl" />
+
+    <!--发布出去的dubbo服务实现类包-->
+    <!--<dubbo:annotation package="com.server.serviceImpl" />-->
+
+    <!--注册中心zookeeper配置地址-->
+    <dubbo:registry address="${dubbo.registry.address}" />
+
+    <!--支持两种协议，一种dubbo 另外一种http协议rest api-url调用-->
+    <!--<dubbo:protocol name="rest" threads="500" contextpath="v1" server="tomcat" accepts="500"/>-->
+    <duboo:protocol name="dubbo"/>
+
+    <!-- 声明需要暴露的服务接口 version是服务的版本号dubbo只找对应版本号的服务提供者进行调用 timeout 超时时间 超过时间过报错-->
+    <dubbo:service interface="com.service.JdService" ref="jdService" version="1.0" timeout="5000"/>
+
+    <!--如果要条用别的项目，自己是消费方，消费方配置信息 到对应项目名称 -->
+    <!--<dubbo:application name="" owner="" organization=""/>-->
+
+</beans>
